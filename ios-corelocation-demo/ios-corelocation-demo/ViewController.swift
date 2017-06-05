@@ -114,16 +114,16 @@ extension ViewController: CLLocationManagerDelegate {
     /// 位置情報が更新された時の処理
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        print("\(manager.location)")
-        print("緯度:\(manager.location?.coordinate.latitude)")
-        print("経度:\(manager.location?.coordinate.longitude)")
-        print("標高:\(manager.location?.altitude)")
-        print("タイムスタンプ:\(manager.location?.timestamp)")
+        print("\(String(describing: manager.location))")
+        print("緯度:\(String(describing: manager.location?.coordinate.latitude))")
+        print("経度:\(String(describing: manager.location?.coordinate.longitude))")
+        print("標高:\(String(describing: manager.location?.altitude))")
+        print("タイムスタンプ:\(String(describing: manager.location?.timestamp))")
         
         // 前回取得時の緯度・経度情報があれば、移動距離を測定する
         if let lat = self.latitude, let lon = self.longitude {
             let previousLocation = CLLocation(latitude: lat, longitude: lon)
-            print("移動距離:\(manager.location?.distance(from: previousLocation))")
+            print("移動距離:\(String(describing: manager.location?.distance(from: previousLocation)))")
         }
         
         // 緯度ラベル、経度ラベルを更新する
