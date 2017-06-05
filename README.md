@@ -52,7 +52,7 @@ https://developer.apple.com/reference/corelocation
 CLLocationは、デバイスの位置データを表すためのクラスです。<br>
 デバイスの位置の地理的座標、高度、測定が行われた時刻などを取得することができます。
 
-通常、CLLocationクラスのインスタンスは、生成する必要はなく、CLLocationManagerオブジェクトがデリゲートに伝えます。また、location managerの`location`プロパティから取得することもできます。
+通常、CLLocationクラスのインスタンスは、生成する必要はなく、CLLocationManagerオブジェクトがデリゲートに伝えます。また、location managerの`location`プロパティから直近の位置情報を取得することもできます。
 
 しかしながら、独自の位置情報をキャッシュしたり、二点の距離を取得するためにCLLocationオブジェクトを生成することもできます。
 
@@ -90,26 +90,55 @@ https://developer.apple.com/reference/corelocation/cllocation
 # CLLocationManager
 
 ## 概要
-CLLocationManagerは、アプリケーションに位置情報に関連するイベントの設定をするためクラスです。<br>位置情報を取得する間隔や位置情報の精度を設定することができます。
+CLLocationManagerは、アプリケーションに位置情報に関連するイベントの設定・通知をするためのクラスです。
+<br>位置情報を取得する間隔や位置情報の精度を設定することができます。
 
 ## 関連クラス
 NSObject、CLLocation
+
+## 使い方
+1. ユーザーに認可を得る
+2. `CLLocationManager`インスタンスを生成し、強参照で保持する。
+3. 同インスタンスの`delegate`プロパティ(`CLLocationManagerDelegate`)を設定する。
+4. 必要なプロパティを設定する
+5. イベント通知を開始するメソッドを呼ぶ
+
+## 現在位置を取得する
+standard location serviceとsignificant location change serviceの２つがある。
+
+|  | standard location service | significant location change service |
+|:-----------|:------------|:------------|
+|特徴|任意の精度で位置情報を取得し、位置が変わるたびに更新を取得することができる | 省電力|
+
+最初の位置と、位置が変わったときだけ情報が必要な場合、significant location change serviceがより適合する。
+
+どちらのサービスを使用しても、位置情報はlocation managerのデリゲートオブジェクトに通知される。
+
+#### standard location serviceを使う
+1. `desiredAccuracy`・`distanceFilter`プロパティを設定する
+2. メソッドを呼ぶ：`requestLocation()`, `startUpdatingLocation()`, or `allowDeferredLocationUpdates(untilTraveled:timeout:)`
+
+精度とバッテリ消費量は相関するので必要以上の精度を要求しないようにする。
+
+#### significant location change serviceを使う
+`startMonitoringSignificantLocationChanges()`メソッドを呼ぶ。
 
 ## 主要プロパティ
 
 | プロパティ名 | 説明 | サンプル |
 |:-----------|:------------|:------------|
-| desiredAccuracy | 位置データの精度を設定する | locationManager.desiredAccuracy = kCLLocationAccuracyBest |
-| distanceFilter | 位置情報を取得する最小間隔をメートル単位で設定する | locationManager.distanceFilter = 100.0 |
-| delegate | CLLocationManagerDelegateの更新イベントを受け取るためのデリゲートオブジェクト | locationManager.delegate = self |
+| `desiredAccuracy` | 位置データの精度を設定する | `locationManager.desiredAccuracy = kCLLocationAccuracyBest` |
+| `distanceFilter` | 位置情報を取得する最小間隔をメートル単位で設定する | `locationManager.distanceFilter = 100.0` |
+| `delegate` | CLLocationManagerDelegateの更新イベントを受け取るためのデリゲートオブジェクト | `locationManager.delegate = self` |
+
 
 ## 主要メソッド
 
 | メソッド名 | 説明 | サンプル |
 |:-----------|:------------|:------------|
-| requestWhenInUseAuthorization() | アプリがフォアグラウンドにある間、位置情報サービスの使用を許可することの確認をする | locationManager.requestWhenInUseAuthorization() |
-| requestAlwaysAuthorization() | 常に位置情報サービスの使用を許可することの確認をする | locationManager.requestAlwaysAuthorization() |
-| startUpdatingLocation() | デバイスの位置情報の取得を開始する | locationManager.startUpdatingLocation() |
+| `requestWhenInUseAuthorization()` | アプリがフォアグラウンドにある間、位置情報サービスの使用を許可することの確認をする | `locationManager.requestWhenInUseAuthorization()` |
+| `requestAlwaysAuthorization()` | 常に位置情報サービスの使用を許可することの確認をする | `locationManager.requestAlwaysAuthorization()` |
+| `startUpdatingLocation()` | デバイスの位置情報の取得を開始する | `locationManager.startUpdatingLocation()` |
 
 ### CLLocationManagerDelegateプロトコルのメソッド
 
