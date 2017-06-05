@@ -10,10 +10,12 @@ Core Locationは、デバイスの現在の緯度・経度を決定し、位置�
 
 ## プライバシー設定
 iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに位置情報を使用する目的を記述しなければなりません。
+
 - 常に位置情報を使用する場合
-<br>“Privacy - Location Always Usage Description”に使用目的を記述する
+<br>`Privacy - Location Always Usage Description`に使用目的を記述する
+
 - アプリがフォアグラウンドにある間のみ位置情報を使用する場合
-<br>“Privacy - Location When In Use Usage Description”に使用目的を記述する
+<br>`Privacy - Location When In Use Usage Description`に使用目的を記述する
 
 ![info.plistのイメージ](https://github.com/stv-yokudera//ios-corelocation-demo/wiki/images/info-plist.png)
 
@@ -24,7 +26,7 @@ iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに
 ![requestWhenInUseAuthorizationのイメージ](https://github.com/stv-yokudera//ios-corelocation-demo/wiki/images/requestWhenInUseAuthorization.jpg)
 
 ## バックグラウンドの位置情報取得設定
-バックグラウンドでも位置情報を取得する場合は、プロジェクトファイルを選択し、<br>Capabilitiesタブ->Background ModesのLocation updatesにチェックを入れます。
+バックグラウンドでも位置情報を取得する場合は、プロジェクトファイルを選択し、<br>`Capabilities`タブ->`Background Modes`の`Location updates`にチェックを入れます。
 
 ![バックグラウンドモードのイメージ](https://github.com/stv-yokudera//ios-corelocation-demo/wiki/images/backgroundmodes.png)
 
@@ -35,8 +37,12 @@ iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに
 | Swift | 3.0.2 |
 | Xcode | 8.2.1 |
 | iOS | 10.0~ |
+
+
 ## 参考
-https://developer.apple.com/reference/corelocation<br>https://developer.apple.com/library/prerelease/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html
+https://developer.apple.com/reference/corelocation
+
+<br>https://developer.apple.com/library/prerelease/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html
 
 <hr>
 
