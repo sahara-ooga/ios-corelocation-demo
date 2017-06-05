@@ -52,6 +52,10 @@ https://developer.apple.com/reference/corelocation
 CLLocationは、デバイスの位置データを表すためのクラスです。<br>
 デバイスの位置の地理的座標、高度、測定が行われた時刻などを取得することができます。
 
+通常、CLLocationクラスのインスタンスは、生成する必要はなく、CLLocationManagerオブジェクトがデリゲートに伝えます。また、location managerの`location`プロパティから取得することもできます。
+
+しかしながら、独自の位置情報をキャッシュしたり、二点の距離を取得するためにCLLocationオブジェクトを生成することもできます。
+
 ## 関連クラス
 NSObject、CLLocationManager
 
@@ -66,7 +70,10 @@ NSObject、CLLocationManager
 | プロパティ名 | 説明 | サンプル |
 |:-----------|:------------|:------------|
 | coordinate | 座標情報 | location.coordinate.latitude<br>location.coordinate.longitude |
-| altitude | メートル単位の標高 | location.altitude |
+| altitude | メートル単位の標高.GPS機能が無い場合は無効 | location.altitude |
+| floor | 建物の階 | location.floor |
+| horizontalAccuracy | 緯度・経度のメートル単位の精度.負の値は緯度・経度が無効であることを表す | location.horizontalAccuracy |
+| verticalAccuracy | 高度のメートル単位の精度.負の値は高度が無効であることを表す | location.horizontalAccuracy |
 | timestamp | 位置の測定が行われた時刻 | locationManager.delegate = self |
 
 ## 主要メソッド
