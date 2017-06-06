@@ -142,7 +142,8 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     /// 位置情報の取得に失敗した時の処理
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error) {
         print("\(error.localizedDescription)")
     }
 }
