@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     
     /// LocationManagerで現在地の更新を開始する
     func setupLocationManager() {
+        //CLLocationManagerは強参照で保持する必要がある
         locationManager = CLLocationManager()
         
         // 精度の設定をする
@@ -69,7 +70,8 @@ class ViewController: UIViewController {
 extension ViewController: CLLocationManagerDelegate {
     
     /// 位置情報の許可状態が変更された時に呼ばれる
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
         
         switch status {
             
@@ -98,13 +100,13 @@ extension ViewController: CLLocationManagerDelegate {
             break;
             
         case .authorizedAlways:
-            print("位置情報の設定が「このAppの使用中のみ許可」になっている")
+            print("位置情報の設定が「常に許可」になっている")
             // 現在地の更新を開始する
             manager.startUpdatingLocation()
             break;
             
         case .authorizedWhenInUse:
-            print("位置情報の設定が「常に許可」になっている")
+            print("位置情報の設定が「このAppの使用中のみ許可」になっている")
             // 現在地の更新を開始する
             manager.startUpdatingLocation()
             break
