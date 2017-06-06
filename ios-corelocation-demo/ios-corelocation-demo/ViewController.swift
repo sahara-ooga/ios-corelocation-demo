@@ -114,24 +114,31 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     /// 位置情報が更新された時の処理
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
         
-        print("\(String(describing: manager.location))")
-        print("緯度:\(String(describing: manager.location?.coordinate.latitude))")
-        print("経度:\(String(describing: manager.location?.coordinate.longitude))")
-        print("標高:\(String(describing: manager.location?.altitude))")
-        print("タイムスタンプ:\(String(describing: manager.location?.timestamp))")
+        guard let location = manager.location else {
+            print("manager.location is nil.")
+            return
+        }
+        
+        print("manager.location:\(location)")
+        print("緯度:\(String(describing: location.coordinate.latitude))")
+        print("経度:\(String(describing: location.coordinate.longitude))")
+        print("標高:\(String(describing: location.altitude))")
+        print("タイムスタンプ:\(String(describing: location.timestamp))")
         
         // 前回取得時の緯度・経度情報があれば、移動距離を測定する
         if let lat = self.latitude, let lon = self.longitude {
             let previousLocation = CLLocation(latitude: lat, longitude: lon)
-            print("移動距離:\(String(describing: manager.location?.distance(from: previousLocation)))")
+            print("移動距離:\(String(describing: location.distance(from: previousLocation)))")
         }
         
         // 緯度ラベル、経度ラベルを更新する
-        self.latitude = manager.location?.coordinate.latitude
-        self.longitude = manager.location?.coordinate.longitude
+        self.latitude = location.coordinate.latitude
+        self.longitude = location.coordinate.longitude
         updateLabels()
+        print("")
     }
     
     /// 位置情報の取得に失敗した時の処理
