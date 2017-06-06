@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupLocationManager()
+        configureLocationServices()
     }
     
     /// LocationManagerで現在地の更新を開始する
@@ -44,10 +45,12 @@ class ViewController: UIViewController {
     @IBAction func tappedReverseGeocoding(_ sender: Any) {
         
         guard let lat = self.latitude, let lon = self.longitude else { return }
+        
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: lat, longitude: lon)
         
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+        geocoder.reverseGeocodeLocation(location,
+                                        completionHandler: { (placemarks, error) in
             placemarks?.forEach{ print("\($0)") }
         })
     }
@@ -65,11 +68,27 @@ class ViewController: UIViewController {
         self.longitude = nil
         updateLabels()
     }
+    
+    fileprivate func configureLocationServices() {
+        // Request authorization, if needed.
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        
+        switch authorizationStatus {
+            
+        case .notDetermined:
+            // Request authorization.
+            self.locationManager?.requestWhenInUseAuthorization()
+            break
+            
+        // Do nothing otherwise.
+        default: break
+        }
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {
     
-    /// 位置情報の許可状態が変更された時に呼ばれる
+    /// 位置情報の許可状態が変更された時に呼ばれる。
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
         
@@ -111,6 +130,8 @@ extension ViewController: CLLocationManagerDelegate {
             manager.startUpdatingLocation()
             break
         }
+        
+        print("")
     }
     
     /// 位置情報が更新された時の処理
