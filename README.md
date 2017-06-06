@@ -9,7 +9,7 @@ Core Locationは、デバイスの現在の緯度・経度を決定し、位置�
 [CLGeocoder Class](https://github.com/stv-yokudera/ios-corelocation-demo#clgeocoder)
 
 ## プライバシー設定
-iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに位置情報を使用する目的を記述しなければなりません。
+iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに位置情報を使用する目的を記述しなければなりません（使用目的を記述しない場合、後述する位置情報の許可要求処理が失敗します）。
 
 - 常に位置情報を使用する場合
 <br>`Privacy - Location Always Usage Description`に使用目的を記述する
@@ -21,9 +21,15 @@ iOS8以降でデバイスの位置情報を使用する場合は、Info.plistに
 
 ここで記述した使用目的は、ユーザーに位置情報を使用する許可を求めるアラートに表示されます。
 
+`CLLocationManager`クラスの`requestAlwaysAuthorization()`メソッドを呼んだ時 
+
 ![requestAlwaysAuthorizationのイメージ](https://github.com/stv-yokudera//ios-corelocation-demo/wiki/images/requestAlwaysAuthorization.jpg)
 
+`CLLocationManager`クラスの`requestWhenInUseAuthorization()`メソッドを呼んだ時
+
 ![requestWhenInUseAuthorizationのイメージ](https://github.com/stv-yokudera//ios-corelocation-demo/wiki/images/requestWhenInUseAuthorization.jpg)
+
+ただし、位置情報の仕様に関する許可がすでに確定している、言い換えると`CLAuthorizationStatus`が`.notDetermined`以外の場合、`requestAlwaysAuthorization()`、`requestWhenInUseAuthorization()`メソッドを呼んでもユーザに許可を求めるアラートは表示されません。
 
 ## バックグラウンドの位置情報取得設定
 バックグラウンドでも位置情報を取得する場合は、プロジェクトファイルを選択し、<br>`Capabilities`タブ->`Background Modes`の`Location updates`にチェックを入れます。
@@ -96,8 +102,11 @@ CLLocationManagerは、アプリケーションに位置情報に関連するイ
 ## 関連クラス
 NSObject、CLLocation
 
-## 使い方
+## 位置情報取得までの流れ
 1. ユーザーに認可を得る
+
+　ユーザーの認可状態は、`CLLocationManager`クラスのタイプメソッド`authorizationStatus()`で取得できます。
+
 2. `CLLocationManager`インスタンスを生成し、強参照で保持する。
 3. 同インスタンスの`delegate`プロパティ(`CLLocationManagerDelegate`)を設定する。
 4. 必要なプロパティを設定する
@@ -151,7 +160,11 @@ standard location serviceとsignificant location change serviceの２つがあ�
 ## 参考
 https://developer.apple.com/reference/corelocation/cllocationmanager
 
+[Requesting Permission to Use Location Services](https://developer.apple.com/documentation/corelocation/requesting_permission_to_use_location_services)
+
+[Determining the Availability of Location Services](https://developer.apple.com/documentation/corelocation/determining_the_availability_of_location_services)
 <hr>
+
 
 # CLGeocoder
 
